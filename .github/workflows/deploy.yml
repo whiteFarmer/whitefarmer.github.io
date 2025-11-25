@@ -1,58 +1,56 @@
-name: Deploy Hexo Blog
+name: Pages
 
-# 触发条件：当有代码推送到 main 分支时触发
 on:
   push:
-    branches: [ main ] # 确保这里是你的主分支名称，可能是 master
+    branches:
+      - main  # 确保这里与您存放源码的分支名一致
 
-# 任务
 jobs:
-  build-and-deploy:
-    # 在最新的 Ubuntu 环境下运行
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    # 步骤 1: 检查（Checkout）你的源码到工作区
-    - name: Checkout source
-      uses: actions/checkout@v4
-      #with:
-      #  submodules: true  # 如果你的主题是通过 Git 子模块引入的，请保留这行
+      - name: Checkout 代码
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # 如果您的主题是以子模块形式引入，取消下一行的注释
+          # submodules: recursive
 
-    # 步骤 2: 设置 Node.js 环境
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '16' # 使用一个稳定的 Node.js 版本
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          # 建议将Node.js版本设置为与您本地开发环境一致的主要版本，例如20
+          node-version: "20"
 
-    # 步骤 3: 安装依赖
-    - name: Install Dependencies
-      run: |
-        npm install hexo-cli -g
-        # 清理可能的缓存
-        npm cache clean --force
-        # 安装依赖，强制使用兼容版本
-        npm install --legacy-peer-deps
-        # 如果还有问题，可以尝试安装特定版本的hexo
-        # npm install hexo@5.4.0 --save
+      - name: 缓存NPM依赖
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache
 
-    - name: Configure Git
-      run: |
-        git config --global user.name "whitefarmer"
-        git config --global user.email "wei1302@outlook.com"
+      - name: 安装依赖
+        run: npm install
 
+      - name: 构建网站
+        run: npm run build  # 这通常对应 `hexo generate`
 
-    # 步骤 4: 构建并部署
-    - name: Build and Deploy
-      run: |
-        hexo clean
-        hexo generate
-        hexo deploy
-      env:
-        # 将 GitHub 用户名和仓库名替换成你自己的
-        GIT_USER: GitHub Actions
-        GIT_EMAIL: actions@github.com
-        # 确保这个secret已正确设置
-        HEXO_DEPLOY_TOKEN: ${{ secrets.HEXO_DEPLOY_TOKEN }}
-        #GITHUB_REPO: github.com/whitefarmer/whitefarmer.github.io.git
-        ## 使用你之前设置的 Secret
-        #GITHUB_TOKEN: ${{ secrets.HEXO_DEPLOY_TOKEN }}
+      - name: 上传构建产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
