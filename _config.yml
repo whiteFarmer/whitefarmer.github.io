@@ -103,6 +103,6 @@ theme: fluid
 deploy:
   type: git
   #repo: https://${{ secrets.HEXO_DEPLOY_TOKEN }}@github.com/whitefarmer/whitefarmer.github.io.git
-  repo: https://github.com/whitefarmer/whitefarmer.github.io.git
+  repo: https://whitefarmer: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@github.com/whitefarmer/whitefarmer.github.io.git
   branch: main
   token: 
