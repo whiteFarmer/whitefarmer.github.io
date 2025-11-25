@@ -49,7 +49,7 @@ jobs:
         hexo deploy
       env:
         # 将 GitHub 用户名和仓库名替换成你自己的
-        GIT_USER: whitefarmer
+        GIT_USER: GitHub Actions
         GIT_EMAIL: actions@github.com
         # 确保这个secret已正确设置
         HEXO_DEPLOY_TOKEN: ${{ secrets.HEXO_DEPLOY_TOKEN }}
