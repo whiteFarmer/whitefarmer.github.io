@@ -15,20 +15,31 @@ jobs:
     # 步骤 1: 检查（Checkout）你的源码到工作区
     - name: Checkout source
       uses: actions/checkout@v4
-      with:
-        submodules: true  # 如果你的主题是通过 Git 子模块引入的，请保留这行
+      #with:
+      #  submodules: true  # 如果你的主题是通过 Git 子模块引入的，请保留这行
 
     # 步骤 2: 设置 Node.js 环境
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18' # 使用一个稳定的 Node.js 版本
+        node-version: '16' # 使用一个稳定的 Node.js 版本
 
     # 步骤 3: 安装依赖
     - name: Install Dependencies
       run: |
         npm install hexo-cli -g
-        npm install
+        # 清理可能的缓存
+        npm cache clean --force
+        # 安装依赖，强制使用兼容版本
+        npm install --legacy-peer-deps
+        # 如果还有问题，可以尝试安装特定版本的hexo
+        # npm install hexo@5.4.0 --save
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "whitefarmer"
+        git config --global user.email "wei1302@outlook.com"
+
 
     # 步骤 4: 构建并部署
     - name: Build and Deploy
@@ -38,6 +49,10 @@ jobs:
         hexo deploy
       env:
         # 将 GitHub 用户名和仓库名替换成你自己的
-        GITHUB_REPO: github.com/whitefarmer/whitefarmer.github.io.git
-        # 使用你之前设置的 Secret
-        GITHUB_TOKEN: ${{ secrets.HEXO_DEPLOY_TOKEN }}
+        GIT_USER: whitefarmer
+        GIT_EMAIL: actions@github.com
+        # 确保这个secret已正确设置
+        HEXO_DEPLOY_TOKEN: ${{ secrets.HEXO_DEPLOY_TOKEN }}
+        #GITHUB_REPO: github.com/whitefarmer/whitefarmer.github.io.git
+        ## 使用你之前设置的 Secret
+        #GITHUB_TOKEN: ${{ secrets.HEXO_DEPLOY_TOKEN }}
