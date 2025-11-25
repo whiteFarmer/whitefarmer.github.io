@@ -15,8 +15,8 @@ jobs:
     # 步骤 1: 检查（Checkout）你的源码到工作区
     - name: Checkout source
       uses: actions/checkout@v4
-      with:
-        submodules: true  # 如果你的主题是通过 Git 子模块引入的，请保留这行
+      #with:
+      #  submodules: true  # 如果你的主题是通过 Git 子模块引入的，请保留这行
 
     # 步骤 2: 设置 Node.js 环境
     - name: Set up Node.js
@@ -30,6 +30,12 @@ jobs:
         npm install hexo-cli -g
         npm install
 
+    - name: Configure Git
+      run: |
+        git config --global user.name "whitefarmer"
+        git config --global user.email "wei1302@outlook.com"
+
+
     # 步骤 4: 构建并部署
     - name: Build and Deploy
       run: |
@@ -38,6 +44,10 @@ jobs:
         hexo deploy
       env:
         # 将 GitHub 用户名和仓库名替换成你自己的
-        GITHUB_REPO: github.com/whitefarmer/whitefarmer.github.io.git
-        # 使用你之前设置的 Secret
-        GITHUB_TOKEN: ${{ secrets.HEXO_DEPLOY_TOKEN }}
+        GIT_USER: whitefarmer
+        GIT_EMAIL: actions@github.com
+        # 确保这个secret已正确设置
+        HEXO_DEPLOY_TOKEN: ${{ secrets.HEXO_DEPLOY_TOKEN }}
+        #GITHUB_REPO: github.com/whitefarmer/whitefarmer.github.io.git
+        ## 使用你之前设置的 Secret
+        #GITHUB_TOKEN: ${{ secrets.HEXO_DEPLOY_TOKEN }}
