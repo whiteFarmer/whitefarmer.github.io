@@ -147,7 +147,7 @@ Date:   Mon Nov 24 10:02:29 2025 +0800
 [32m+[m[32m  type: git[m
 [32m+[m[32m  repo: https://github.com/whitefarmer/whitefarmer.github.io.git[m
 [32m+[m[32m  branch: main[m
-[32m+[m[32m  token: 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[m
+[32m+[m[32m  token: [m
 [1mdiff --git a/package-lock.json b/package-lock.json[m
 [1mnew file mode 100644[m
 [1mindex 0000000..ef37ccb[m
