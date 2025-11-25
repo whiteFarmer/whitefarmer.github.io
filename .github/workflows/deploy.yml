@@ -28,7 +28,12 @@ jobs:
     - name: Install Dependencies
       run: |
         npm install hexo-cli -g
-        npm install
+        # 清理可能的缓存
+        npm cache clean --force
+        # 安装依赖，强制使用兼容版本
+        npm install --legacy-peer-deps
+        # 如果还有问题，可以尝试安装特定版本的hexo
+        # npm install hexo@5.4.0 --save
 
     - name: Configure Git
       run: |
