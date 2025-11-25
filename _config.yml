@@ -105,4 +105,3 @@ deploy:
   #repo: https://${{ secrets.HEXO_DEPLOY_TOKEN }}@github.com/whitefarmer/whitefarmer.github.io.git
   repo: git@github.com:whitefarmer/whitefarmer.github.io.git
   branch: main
-  token: 
