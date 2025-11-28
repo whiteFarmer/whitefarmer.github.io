@@ -1,0 +1,30 @@
+/* 静态小猫装饰样式 */
+.cat-decoration {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    height: 120px;
+    background-image: url('/img/喵喵.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+/* 鼠标悬停时稍微变亮 */
+.cat-decoration:hover {
+    opacity: 1;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+/* 移动端隐藏小猫 */
+@media (max-width: 768px) {
+    .cat-decoration {
+        display: none;
+    }
+}

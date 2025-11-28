@@ -8,8 +8,12 @@ var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.d
 
 <%- partial('_partials/head.ejs') %>
 
+<!-- 小猫装饰 -->
+<div class="cat-decoration" title="喵~"></div>
 
 <body>
+
+  <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
 
   <%- inject_point('bodyBegin') %>
 
@@ -73,3 +77,32 @@ var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.d
   </noscript>
 </body>
 </html>
+
+<style>
+/* 静态小猫装饰样式 */
+.cat-decoration {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    height: 120px;
+    background-image: url('/img/喵喵-无背景.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.cat-decoration:hover {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .cat-decoration {
+        display: none;
+    }
+}
+</style>
