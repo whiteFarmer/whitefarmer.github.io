@@ -1,0 +1,159 @@
+
+
+#cat-widget-container {
+    /* 作为定位父容器，自身不占大小 */
+    position: fixed;
+    bottom: 200px;  /* 初始距底部100px */
+    right: 200px;   /* 初始距右侧100px */
+
+    left: auto;
+    top: auto;
+
+
+    width: 2000px;
+    height: 2000px;
+    z-index: 9998;
+}
+
+/* === 小猫挂件基础样式 === */
+#cat-widget {
+    position: absolute;
+    /*bottom: 30px;
+    right: 30px;
+    */
+    left: 60px;
+    bottom: 0px;
+
+    width: 200px;
+    height: 200px;
+    background-image: url('/img/喵喵-无背景.png'); /* 你的小猫图片路径 */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    /*cursor: pointer;/* 鼠标悬停时显示可拖动/点击的手势 */
+    cursor: grab; /* 拖拽手型 */
+    z-index: 9997;
+    opacity: 1;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px rgba(255, 200, 100, 0.5));
+}
+
+#cat-widget:hover {
+    transform: scale(1.1) rotate(5deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(255, 200, 100, 0.8));
+}
+
+#cat-widget:active {
+    cursor: grabbing; /* 拖拽中 */
+    transform: scale(0.95);
+    /*transition-duration: 0.1s;*/
+}
+
+/* === 点击特效样式 === */
+#click-effect {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9997;
+}
+
+.click-sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #FFD700;
+    border-radius: 50%;
+    animation: sparkle 0.6s ease-out forwards;
+    box-shadow: 0 0 10px #FFD700;
+}
+
+@keyframes sparkle {
+    0% {
+        transform: scale(0) translate(0, 0);
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) translate(var(--tx), var(--ty));
+        opacity: 0;
+    }
+}
+
+
+/* === 气泡对话框样式 (替代原对话框样式) === */
+#cat-dialog {
+    /* 初始状态：隐藏且透明 */
+    display: none;
+    opacity: 0;
+    /* 定位：固定在小猫正上方 */
+    position: absolute;
+    /* 【重要】以下 bottom 和 right 值需要根据小猫图片大小微调 */
+    bottom: 200px; /* 默认在小猫上方150px，可调 */
+    right: 100px;   /* 和小猫右侧对齐 */
+
+    /* 简洁外观 */
+    max-width: 2220px; /* 最大宽度，更紧凑 */
+    padding: 12px 15px;
+    background-color: #fff;
+    border: 2px solid #e2771f; /* 淡粉色边框 */
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999; /* 确保在最上层 */
+    /* 字体 */
+    font-size: 14px;
+    line-height: 1.4;
+    color: #333;
+    /* 过渡动画 */
+    transition: opacity 0.3s ease;
+}
+
+/* 对话框显示时的状态 */
+#cat-dialog.show {
+    display: block;
+    opacity: 1;
+}
+
+/* 气泡对话框的小箭头（指向下方的小猫） */
+#cat-dialog::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* 定位在对话框底部 */
+    right: 30px; /* 箭头在对话框右侧的位置，需与对话框right值搭配调整 */
+    /* 绘制一个三角形 */
+    border-width: 10px;
+    border-style: solid;
+    border-color: #fff transparent transparent transparent;
+    /* 为了给箭头上边框色，需要再叠加一层 */
+}
+#cat-dialog::before {
+    content: '';
+    position: absolute;
+    top: 100%; /* 与after对齐 */
+    right: 30px; /* 与after对齐 */
+    /* 绘制一个稍大的三角形作为边框 */
+    border-width: 12px;
+    border-style: solid;
+    border-color: #e2771f transparent transparent transparent;
+    z-index: -1; /* 放在箭头“后面” */
+}
+
+/* 移动端适配：在小屏幕上对话框变窄并居中 */
+@media (max-width: 768px) {
+    #cat-dialog {
+        max-width: 180px;
+        bottom: 140px; /* 调整位置 */
+        right: 50%;
+        transform: translateX(50%); /* 水平居中 */
+    }
+    /* 移动端调整箭头居中 */
+    #cat-dialog::after,
+    #cat-dialog::before {
+        right: 50%;
+        transform: translateX(50%);
+    }
+}
+
+
+

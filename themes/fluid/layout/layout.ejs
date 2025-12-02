@@ -8,12 +8,15 @@ var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.d
 
 <%- partial('_partials/head.ejs') %>
 
-<!-- 小猫装饰 -->
+<!-- 小猫装饰 
 <div class="cat-decoration" title="喵~"></div>
+-->
 
 <body>
 
+  <!--
   <script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+   -->
 
   <%- inject_point('bodyBegin') %>
 
@@ -75,34 +78,29 @@ var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.d
   <noscript>
     <div class="noscript-warning"><%- __('noscript_warning') %></div>
   </noscript>
+
+
+
+  <!-- 小猫挂件与对话框 -->
+  <div id="cat-widget-container" style="position: fixed; left: 80%; top: 70%; width: 300px; height: 300px; z-index: 9998;">
+      <!-- 小猫挂件 -->
+      <div id="cat-widget" class="cat-widget" title="喵喵~">
+          <!-- 小猫图片通过CSS背景实现 -->
+      </div>
+      
+      <!-- 对话框（初始隐藏） -->
+      <div id="cat-dialog" >
+          <p id="dialog-text">欢迎！</p>
+      </div>
+  </div>
+
+  <!-- 点击特效容器（用于显示点击动画） -->
+  <div id="click-effect"></div>
+
+  
+
+
 </body>
 </html>
 
-<style>
-/* 静态小猫装饰样式 */
-.cat-decoration {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 120px;
-    height: 120px;
-    background-image: url('/img/喵喵-无背景.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    z-index: 9999;
-    pointer-events: none;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-}
 
-.cat-decoration:hover {
-    opacity: 1;
-}
-
-@media (max-width: 768px) {
-    .cat-decoration {
-        display: none;
-    }
-}
-</style>
